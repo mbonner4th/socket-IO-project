@@ -5,11 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Twitter Clone</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
 
 </head>
 <body>
+        <div  class="container">
+            <nav id="top-nav" class="navbar fixed-top navbar-toggleable-md navbar-light bg-faded">
+                <a class="navbar-brand" href="#">Navbar</a>
+            </nav>
+        </div>
 
     <div id="content" class="container">
         <div class="row">
@@ -30,69 +35,63 @@
             </div>
 
             <div class="col-sm-6">
-
-                <div class="jumbotron">
+                <div class="jumbotron " id="jumbotron-container">
                     <form id="tweet-form">
-                        <h1 class="text-center display-3">Tweet here</h1>
                         <textarea id="tweet-ta" class="form-control" required></textarea>
                         <span> <span id="char-count">0</span>/140</span>
                         <button type="button submit" id="tweet-btn" class="btn btn-primary">Tweet!</button>
                     </form>
                     <div id="drop-down-container" class="form-group">
-                        <select id="drop-down-selector">
-                            <option>Stervan Kong</option>
-                            <option>Stephen King</option>
-                            <option>Steven Kong</option>
-                        </select>
+                        <form id="drop-down-form">
+                            <select id="drop-down-selector" name="tag-person">
+                                <option value="Steven King">Steven King</option>
+                                <option value="Don King">Don King</option>
+                                <option value="BK King">BK King</option>
+                            </select>
+                            <input type="submit" value="submit" style="display: none" />
+                        </form>
+                        
                     </div>
                 </div>
 
                 <div class="table-container">
-                    <table class="table" id="tweet-table-header">
-                        <thead>
-                            <tr>
-                                <th>
+
+                    <div class="top-bar-container col-sm-12">
+                        <div class="top-bar">
+                            <ul class="nav nav-tabs">
+                                <li role="presentation" class="active col-sm-3">
                                     <a href="#">Tweets</a>
-                                </th>
-                                <th>
+                                </li>
+                                <li class="col-sm-6">
                                     <a href="#">Tweets & replies</a>
-                                </th>
-                                <th>
+                                </li>
+                                <li class="col-sm-3">
                                     <a href="#">Media</a>
-                                </th>
-                            </tr>
-                        </thead>
-                    </table>
-                    <table class="table">
-                        <tbody id="tweet-table-body">
-                            <tr>
-                                <td>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
 
-                                    <div class="tweet-box">
-                                        <p class="author">Truman Capote <span>@personTwitter</span></p>
-                                        <p>
-                                            Today we've supported three great high school classes focused on computer programming and women and diversity in tech on https://www.adoptaclassroom.org/  
-                                            We encourage you to also support the kind of learning you have a passion for
-                                        </p>
-                                    </div>
-                                </td>
-                                
-                            </tr>
+                    <div id="tweet-container">
+                            <div class="tweet-box">
+                                <p class="author">Truman Capote <span>@personTwitter</span></p>
+                                <p>
+                                    Today we've supported three great high school classes focused on computer programming and women and diversity in tech on https://www.adoptaclassroom.org/  
+                                    We encourage you to also support the kind of learning you have a passion for
+                                </p>
+                            </div>
 
-                            <tr>
-                                <td>
-                                    <div class="tweet-box">
-                                        <p class="author">Truman Capote <span>@personTwitter</span></p>
-                                        <p>
-                                            here's another tweet to add to make some more stuff. I wonder how hard this will be to style later. I sure hope there are some good things in bootstrap
-                                        </p>
-                                    </div>
-                                </td>   
-                            </tr>
-                        </tbody>
-                    </table>
+                            <div class="tweet-box">
+                                <p class="author">Truman Capote <span>@personTwitter</span></p>
+                                <p>
+                                    Today we've supported three great high school classes focused on computer programming and women and diversity in tech on https://www.adoptaclassroom.org/  
+                                    We encourage you to also support the kind of learning you have a passion for
+                                </p>
+                            </div>
+
+                    </div>
+                    
                 </div>
-
 
             </div>
 

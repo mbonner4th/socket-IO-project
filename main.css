@@ -1,31 +1,73 @@
 body{
     background-color: #e6ecf0;
+    
 }
 #content{
-    margin-top: 2%;
+    margin-top: 8%;
 }
 .side-content{
     margin-right: 5%;
 }
 
-.bio-text-container{   
+
+.bio-text-container{
+    border-radius: 13px;
+    padding: 5px;
+    background: white;   
 }
+
+#top-nav{
+    background-color: white;
+}
+
+#jumbotron-container{
+    padding: 20px;
+    background-color: gray;
+}
+
+
+.top-bar ul{
+    list-style-type: none;
+    width: 100%
+}
+
+.top-bar li:nth-child(2){
+    border-right: 1px solid #bbb;
+    border-left: 1px solid #bbb;
+}
+
+.top-bar  li {
+    float: left;
+}
+
+
+.top-bar li a{
+    color: #0056b3;    
+    text-align: center;
+    display: block;
+    padding: 5px;
+    /* padding-bottom: 5px; */
+    /* padding-right: 10%; */
+    text-decoration: none;  
+    font-weight: bold; 
+}
+
+.top-bar li:hover{
+    background-color: gray;
+    color: black
+}
+
+
 
 #tweet-ta{
     min-height: 100px;
 }
 
-#tweet-table-header{
-    margin: 0;
+
+#tweet-form{
+    color: white;
 }
 
-#tweet-table-header th:hover{
-    background-color: darkgrey;
-}
-
-#tweet-table-body tr:nth-child(1) {
-}
-    
 #tweet-btn{
     float: right;
     margin:10px;
@@ -41,15 +83,24 @@ body{
     font-weight: bold;
 }
 
+#tweet-container{
+    /* margin-top:5%; */
+}
 
+.tweet-box{
+    border-radius: 10px;
+    background: white;
+    padding: 10px;
+    margin-bottom: 5px;
+}
 .tweet-box .author span{
     font-weight: lighter;
     color: gray;
 }
 
 .tweet-box p{
-    word-break: normal;
-    overflow: hidden;
+    word-break: break-all;
+    hyphens: auto;
 }
 
 #drop-down-container{
