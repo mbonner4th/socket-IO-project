@@ -51,3 +51,8 @@ body{
     word-break: normal;
     overflow: hidden;
 }
+
+#drop-down-container{
+    z-index: 1;
+    display: none;
+}

@@ -6,6 +6,8 @@ $(function(){
     var tweetBtn = $("#tweet-btn");
     var tweetFrom = $("#tweet-form");
     var tweetTableBody = $("#tweet-table-body");
+    var dropDownContainer = $("#drop-down-container");
+    var dropDownSelector = $("#drop-down-selector");
 
     function updateCount(number){
         charCountContainer.html(number);
@@ -30,6 +32,13 @@ $(function(){
         var tweetLength = $(this).val().length;
         updateCount(tweetLength);
         tweetBtn.prop('disabled', (tweetLength > 140));
+        
+        if($(this).val().substr(-1) === '@'){
+            dropDownContainer.css({"display":"block"});
+            dropDownSelector.focus();
+        } else{
+            dropDownContainer.css({"display":"none"});
+        }
     });
 
     tweetFrom.on("submit", function(event){
