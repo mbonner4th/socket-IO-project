@@ -1,0 +1,53 @@
+body{
+    background-color: #e6ecf0;
+}
+#content{
+    margin-top: 2%;
+}
+.side-content{
+    margin-right: 5%;
+}
+
+.bio-text-container{   
+}
+
+#tweet-ta{
+    min-height: 100px;
+}
+
+#tweet-table-header{
+    margin: 0;
+}
+
+#tweet-table-header th:hover{
+    background-color: darkgrey;
+}
+
+#tweet-table-body tr:nth-child(1) {
+}
+    
+#tweet-btn{
+    float: right;
+    margin:10px;
+}
+
+#char-count{
+    margin-top: 10px;
+    display: inline-block;
+}
+
+.author{
+    color: blue;
+    font-weight: bold;
+}
+
+
+.tweet-box .author span{
+    font-weight: lighter;
+    color: gray;
+}
+
+.tweet-box p{
+    word-break: normal;
+    overflow: hidden;
+}
