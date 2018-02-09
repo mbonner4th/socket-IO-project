@@ -11,6 +11,16 @@ $(function(){
     var dropDownFrom = $("#drop-down-form");
     var tweetContainer = $("#tweet-container");
 
+    var registerBtn = $("#register-btn");
+    var signInBtn = $("#sign-in-btn");
+
+    var regModal = $("#reg-modal");
+    var regForm = $("#reg-form");
+
+    var signInModal = $("#signin-modal");
+    var signInForm = $("#signin-form");
+
+
     function updateCount(number){
         charCountContainer.html(number);
     }
@@ -53,6 +63,40 @@ $(function(){
         // console.log($(this).val());
     });
 
+
+    registerBtn.on("click", function(event){
+    });
+
+    //todo - ask Thi about this section of code
+    function formDataToJson(serlalizedArray){
+        var returnData = {}
+        $.map(serlalizedArray, function (value, index){
+            returnData[value["name"]] = value["value"];
+        });
+        return returnData;
+    }
+
+    regForm.on("submit", function(event){
+        event.preventDefault();
+        console.log("submitted");
+        console.log(formDataToJson($(this).serializeArray()));
+        $(this)[0].reset();
+        regModal.modal("hide");
+    });
+
+    
+
+    signInBtn.on("click", function(event){
+        console.log("clicked here too");
+    });
+
+    signInForm.on("submit", function(event){
+        event.preventDefault();
+        console.log("logged-on");
+        console.log(formDataToJson($(this).serializeArray()));
+        $(this)[0].reset();
+        signInModal.modal("hide");
+    })
 
     
 });

@@ -12,7 +12,12 @@
 <body>
         <div  class="container">
             <nav id="top-nav" class="navbar fixed-top navbar-toggleable-md navbar-light bg-faded">
-                <a class="navbar-brand" href="#">Navbar</a>
+                <a class="navbar-brand" href="#">Twitter?</a>
+                <div class="btn-container  ml-auto">
+                    <button id="register-btn" type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#reg-modal">Register</button>
+                    <button id="sign-in-btn" type="button" class="btn btn-outline-primary"  data-toggle="modal" data-target="#signin-modal">Sign in</button>
+                </div>
+                
             </nav>
         </div>
 
@@ -104,6 +109,102 @@
         </div>
 
     </div>
+
+<!-- Button trigger modal -->      
+      <!-- Modal -->
+      <div class="modal fade" id="reg-modal" tabindex="-1" role="dialog" aria-labelledby="reg-modalTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="reg-modalTitle">Modal title</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+            <form id="reg-form">
+                <div class="form-group row">
+                    <!-- <label for="reg-email" class="col-2 col-form-label">Email</label> -->
+                    <div class="col-12">
+                        <input type="email" class="form-control" id="reg-email" name="reg-email" placeholder="Email"  value="a@a" required>
+                    </div>
+                    
+                </div>
+                <div class="form-group row">
+                    <!-- <label for="reg-handel" class="col-2 col-form-label">Handel</label> -->
+                    <div class="col-12 input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">@</div>
+                        </div>
+                        <input type="text" class="form-control" id="reg-handel" name="handel" value="a" placeholder="Handel" required>
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <!-- <label for="reg-password-1" class="col-2 col-form-label">Password</label> -->
+                    <div class="col-12">
+                        <input type="password" class="form-control" id="reg-password-1"  name="password-1" value="a" placeholder="Password" required>
+                    </div>
+                    
+                </div>
+                <div class="form-group row">
+                    <!-- <label for="reg-password-2" class="col-2 col-form-label">Re-enter Password</label> -->
+                    <div class="col-12">
+                        <input type="password" class="form-control" id="reg-password-2" name="password-2" value="a" placeholder="re-enter Password" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Register</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>                    
+                </div>
+            </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- TODO - fix this section so I'm using 1 modal instead of 2-->
+
+      <div class="modal fade" id="signin-modal" tabindex="-1" role="dialog" aria-labelledby="signin-modal-title" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="signin-modal-title">Sign In</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                <form id="signin-form">
+                    <div class="form-group row">
+                        <!-- <label for="reg-handel" class="col-2 col-form-label">Handel</label> -->
+                        <div class="col-12 input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">@</div>
+                            </div>
+                            <input type="text" class="form-control" name="handel" id="signin-handel" placeholder="Handel" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <!-- <label for="reg-password-1" class="col-2 col-form-label">Password</label> -->
+                        <div class="col-12">
+                            <input type="password" class="form-control" name="password-1" id="reg-password-1" placeholder="Password" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">Sign in</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>                    
+                    </div>
+                </form>
+                </div>
+              </div>
+            </div>
+          </div>
 
 
 
