@@ -1,6 +1,4 @@
 $(function(){
-    console.log("hello world");
-
     var charCountContainer = $("#char-count");
     var tweetTa = $("#tweet-ta");
     var tweetBtn = $("#tweet-btn");
@@ -79,9 +77,20 @@ $(function(){
     regForm.on("submit", function(event){
         event.preventDefault();
         console.log("submitted");
-        console.log(formDataToJson($(this).serializeArray()));
-        $(this)[0].reset();
-        regModal.modal("hide");
+        
+        var formData = formDataToJson($(this).serializeArray());
+        console.log(formData["password"] == formData["re-password"]);
+        console.log(formData);
+        $.ajax({
+            method: "POST",
+            url:"/users",
+            data: formData,
+        }).done( function(res){
+            console.log(res);
+            regForm[0].reset();
+            regModal.modal("hide");
+        });
+        
     });
 
     
