@@ -17,6 +17,12 @@ $(function(){
 
     var signInModal = $("#signin-modal");
     var signInForm = $("#signin-form");
+    var socket = io();
+
+    socket.on('newTweet', function(data){
+        console.log("new tweet recived");
+        console.log(data);
+    })
 
 
     function updateCount(number){
@@ -50,9 +56,20 @@ $(function(){
 
     tweetFrom.on("submit", function(event){
         event.preventDefault();
-        createTweet(tweetTa.val());
-        tweetFrom[0].reset();
-        updateCount(0);
+        $.ajax({
+            method:'POST',
+            url: '/tweets',
+            data: {
+                body: tweetTa.val()
+            }
+
+        }).done(function(res){
+            createTweet(tweetTa.val());
+            tweetFrom[0].reset();
+            console.log('new tweet here');
+            updateCount(0);
+        });
+        
     });
 
     dropDownFrom.on("submit", function(event){
@@ -77,7 +94,6 @@ $(function(){
     regForm.on("submit", function(event){
         event.preventDefault();
         console.log("submitted");
-        
         var formData = formDataToJson($(this).serializeArray());
         console.log(formData["password"] == formData["re-password"]);
         console.log(formData);
