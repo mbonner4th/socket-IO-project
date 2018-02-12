@@ -7,19 +7,21 @@ var tweetModel = require('../models/tweets');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  tweetModel.find({}, function(err,tweets){
-    if (err){
-      console.log(err);
-      res.sendStatus(500);
-    }
-  }).then(
-  );
+  tweetModel.find({"User._id":req.user._id})
+  .then(function(tweets){
+    res.send(tweets);
+  }).catch(function(err){
+    console.log(err);
+    res.end();
+  });
 });
 
 
 router.post('/', function(req, res, next){
+  console.log(req.user);
   tweetModel.create({
     body: req.body.body,
+    User: req.user
   })
   .then(function(tweet){
     //broadcast stuff here

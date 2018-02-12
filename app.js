@@ -5,10 +5,15 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var session = require("client-sessions");
+
+var requireLogin = require('./utils/auth').requireLogin;
+
 var index = require('./routes/index');
 var users = require('./routes/users');
 var homepage = require("./routes/homepage");
 var tweets = require('./routes/tweets');
+var auth = require('./routes/auth');
 var app = express();
 
 var mongoose = require('mongoose');
@@ -24,6 +29,40 @@ db.on('open', function(){
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+
+// client-sessions middle ware
+
+var userModel = require('./models/users');
+
+app.use(session({
+  cookieName: 'session',
+  secret: 'random_string_goes_here',
+  duration: 30 * 60 * 1000,
+  activeDuration: 5 * 60 * 1000,
+  httpOnly: true,
+  secure: true,
+  ephemeral: true,
+}));
+
+app.use(function(req, res, next) {
+  if (req.session && req.session.user) {
+    userModel.findOne({ email: req.session.user.email }, function(err, user) {
+      if (user) {
+        req.user = user.toObject();
+        delete req.user.password; // delete the password from the session
+        req.session.user = user;  //refresh the session value
+        res.locals.user = user;
+      }
+      // finishing processing the middleware and run the route
+      next();
+    });
+  } else {
+    next();
+  }
+});
+
+
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
@@ -32,9 +71,22 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', homepage);
-app.use('/users', users);
+
+function requireLogin_ (req, res, next) {
+  if (!req.user) {
+    console.log('redirected to login');
+   res.redirect('/auth');
+  } else {
+    next();
+  }
+};
+
+
 app.use('/tweets', tweets);
+app.use('/auth', auth);
+app.use('/user', requireLogin_, homepage);
+app.use('/', requireLogin_, homepage);
+
 
 
 // catch 404 and forward to error handler

@@ -1,8 +1,13 @@
 $(function(){
     var charCountContainer = $("#char-count");
+
     var tweetTa = $("#tweet-ta");
+    var tweetAuthor = $("#tweet-author");
     var tweetBtn = $("#tweet-btn");
     var tweetFrom = $("#tweet-form");
+
+    var loadingSpinner = $("#loading-spinner");
+
     var tweetTableBody = $("#tweet-table-body");
     var dropDownContainer = $("#drop-down-container");
     var dropDownSelector = $("#drop-down-selector");
@@ -17,6 +22,9 @@ $(function(){
 
     var signInModal = $("#signin-modal");
     var signInForm = $("#signin-form");
+    
+    var logoutBtn = $('#logout-btn');
+    
     var socket = io();
 
     socket.on('newTweet', function(data){
@@ -24,21 +32,33 @@ $(function(){
         console.log(data);
     })
 
+    function getAllTweets(){
+        $.ajax({
+            method:'GET',
+            url: '/tweets',
+        }).done(function(res){
+            $.map(res, function(val, i){
+                createTweet(val.body, val.User.handle);
+            });
+            loadingSpinner.css('display', 'none');
+        });
+    }
+    getAllTweets();
 
+    /* updates the character count on the tweet-box */
     function updateCount(number){
         charCountContainer.html(number);
     }
 
-    function createTweet(tweetBody){
 
+    function createTweet(tweetBody, tweetAuthor){
         var content = `
         <div class="tweet-box">
-        <p class="author">Truman Capote <span>@personTwitter</span></p>
+        <p class="author">${tweetAuthor} <span>@${tweetAuthor}</span></p>
         <p>${tweetBody}</p>
         </div>
         `;
         tweetContainer.prepend(content);
-        
     }
     
 
@@ -47,8 +67,8 @@ $(function(){
         updateCount(tweetLength);
         tweetBtn.prop('disabled', (tweetLength > 140));       
         if($(this).val().substr(-1) === '@'){
-            dropDownContainer.css({"display":"block"});
-            dropDownSelector.focus();
+            // dropDownContainer.css({"display":"block"});
+            // dropDownSelector.focus();
         } else{
             dropDownContainer.css({"display":"none"});
         }
@@ -64,7 +84,7 @@ $(function(){
             }
 
         }).done(function(res){
-            createTweet(tweetTa.val());
+            createTweet(tweetTa.val(), tweetAuthor.val());
             tweetFrom[0].reset();
             console.log('new tweet here');
             updateCount(0);
@@ -122,6 +142,16 @@ $(function(){
         $(this)[0].reset();
         signInModal.modal("hide");
     })
+
+    logoutBtn.on('click', function(event){
+        $.ajax({
+            method: "GET",
+            url: "/auth/logout",
+
+        }).done(
+            console.log("logged out")
+        );
+    });
 
     
 });

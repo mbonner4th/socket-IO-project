@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/main.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/homepage.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
 <body>
@@ -15,6 +16,7 @@
             <nav id="top-nav" class="navbar fixed-top navbar-toggleable-md navbar-light bg-faded">
                 <a class="navbar-brand" href="#">Twitter?</a>
                 <div class="btn-container  ml-auto">
+                    <button id="logout-btn" type="button" class="btn btn-outline-primary" >Log out</button>
                     <button id="register-btn" type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#reg-modal">Register</button>
                     <button id="sign-in-btn" type="button" class="btn btn-outline-primary"  data-toggle="modal" data-target="#signin-modal">Sign in</button>
                 </div>
@@ -28,15 +30,18 @@
                 <div class="side-content">
                     <div class="bio-text-container">
                         <h2 class="author">
-                            <a href="#">Truman Capote</a>
+                            <a href="#"><%= user %></a>
+                            
                         </h2>
                         <h4>
-                            @personTwitter
+                            @<%= user %>
                         </h4>
                         <p class="bio-text">
                             here's some text about this guy and his twitter page. Give him some tweets or whatever.
                         </p>
+                        <button id="follow-btn" class="btn btn-primary"> Follow </button>
                     </div>
+                    
                 </div>
             </div>
 
@@ -44,6 +49,7 @@
                 <div class="jumbotron " id="jumbotron-container">
                     <form id="tweet-form">
                         <textarea id="tweet-ta" class="form-control" required></textarea>
+                        <input type="hidden" id="tweet-author" value=<%= user %> >
                         <span> <span id="char-count">0</span>/140</span>
                         <button type="button submit" id="tweet-btn" class="btn btn-primary">Tweet!</button>
                     </form>
@@ -78,22 +84,12 @@
                         </div>
                     </div>
 
-                    <div id="tweet-container">
-                            <div class="tweet-box">
-                                <p class="author">Truman Capote <span>@personTwitter</span></p>
-                                <p>
-                                    Today we've supported three great high school classes focused on computer programming and women and diversity in tech on https://www.adoptaclassroom.org/  
-                                    We encourage you to also support the kind of learning you have a passion for
-                                </p>
-                            </div>
 
-                            <div class="tweet-box">
-                                <p class="author">Truman Capote <span>@personTwitter</span></p>
-                                <p>
-                                    Today we've supported three great high school classes focused on computer programming and women and diversity in tech on https://www.adoptaclassroom.org/  
-                                    We encourage you to also support the kind of learning you have a passion for
-                                </p>
-                            </div>
+                    <div id="loading-spinner">
+                        
+                        <i class="fa fa-spinner fa-spin"></i>    
+                    </div>
+                    <div id="tweet-container">
 
                     </div>
                     
