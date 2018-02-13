@@ -17,9 +17,13 @@ var userSchema = mongoose.Schema({
         required: true,
     }, 
     following: [{
+        type: String, 
+        ref: 'user',
+    }],
+    followers: [{
         type: ObjectId, 
         ref: 'user',
-    }], 
+    }] 
 });
 var userModel = mongoose.model('user', userSchema);
 

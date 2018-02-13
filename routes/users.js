@@ -2,9 +2,12 @@ var express = require('express');
 var router = express.Router();
 var userModel = require("../models/users");
 
+
+
+
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.end();
+  res.send(req.user);
 });
 
 
@@ -26,13 +29,30 @@ router.post("/", function(req, res, next){
         }
         console.log("new user");
         res.sendStatus(200);
-        res.end();
+        //res.end();
       });
     } else {
       res.status(500).send("user already exsists");
     }
   });
 });
+
+/* takes a requested handel and adds the current user to the array of 
+people following the requested user  */
+router.put('/follow/:handle', function(req, res, next){
+  console.log(req.params.handle);
+  // res.render('home-page', { user: req.user.handle });
+
+  userModel.updateOne({_id: req.user._id},{ $addToSet: {following:req.params.handle}})
+  .then(function(done){
+    console.log(done);
+    res.end();
+  })
+  .catch(function(err){
+    console.log(err);
+    res.end();
+  });
+})
 
 
 module.exports = router;

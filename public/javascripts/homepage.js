@@ -1,6 +1,8 @@
 $(function(){
     var charCountContainer = $("#char-count");
 
+    var followBtn = $("#follow-btn");
+
     var tweetTa = $("#tweet-ta");
     var tweetAuthor = $("#tweet-author");
     var tweetBtn = $("#tweet-btn");
@@ -27,10 +29,28 @@ $(function(){
     
     var socket = io();
 
+
     socket.on('newTweet', function(data){
         console.log("new tweet recived");
         console.log(data);
+    });
+
+    socket.on('connect', function(){
+        console.log("connected")
+        getUser();
     })
+
+    function getUser(){
+        $.ajax({
+            method:'GET',
+            url: '/user',
+        }).done(function(user){
+            console.log("user");
+            socket.emit("join", user.following);
+        });
+    }
+    
+
 
     function getAllTweets(){
         $.ajax({
@@ -153,5 +173,16 @@ $(function(){
         );
     });
 
+    followBtn.on('click', function(event){
+        console.log(followBtn.val());
+        $.ajax({
+            method: "PUT",
+            url: `/user/follow/${followBtn.val()}`,
+            data: followBtn.val(),
+
+        }).done(
+            console.log("now following")
+        );
+    })
     
 });

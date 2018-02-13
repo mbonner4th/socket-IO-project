@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
+var tweetsModel = require('../models/tweets');
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   console.log(req.user)
@@ -9,7 +11,9 @@ router.get('/', function(req, res, next) {
 
 router.get('/:handle', function(req, res, next){
   console.log(req.params.handle);
-  res.render('home-page', { user: req.user.handle });
+  
+  
+  res.render('home-page', { user: req.params.handle });
 });
 
 module.exports = router;

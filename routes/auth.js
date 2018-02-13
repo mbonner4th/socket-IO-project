@@ -19,7 +19,7 @@ router.post('/register', function(req, res, next){
         req.user = user.toObject();
         delete req.user.password;
         req.session.user = user;
-        res.redirect(`/user/${user.handle}`);
+        res.redirect(`/homepage/${user.handle}`);
     })
     .catch(function(err){
         console.log(err);
@@ -38,7 +38,7 @@ router.post('/login', function(req, res, next){
             delete req.user.password;
             req.session.user = user;
             console.log("logged on");
-            res.redirect(`/user/${user.handle}`);
+            res.redirect(`/homepage/${user.handle}`);
         } else{
             res.render('auth', {error: "incoorect email or password"});
         }
@@ -48,7 +48,7 @@ router.post('/login', function(req, res, next){
     });
 });
 
-router.get('/logout', function(req, res) {
+router.get('/logout', function(req, res, next) {
     req.session.reset();
     console.log("no more session");
     res.redirect('/auth');

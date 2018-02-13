@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var session = require("client-sessions");
+var sessionConfig = require("./sessionConfig");
 
 var requireLogin = require('./utils/auth').requireLogin;
 
@@ -34,15 +35,8 @@ app.set('view engine', 'ejs');
 
 var userModel = require('./models/users');
 
-app.use(session({
-  cookieName: 'session',
-  secret: 'random_string_goes_here',
-  duration: 30 * 60 * 1000,
-  activeDuration: 5 * 60 * 1000,
-  httpOnly: true,
-  secure: true,
-  ephemeral: true,
-}));
+
+app.use(session(sessionConfig));
 
 app.use(function(req, res, next) {
   if (req.session && req.session.user) {
@@ -84,8 +78,10 @@ function requireLogin_ (req, res, next) {
 
 app.use('/tweets', tweets);
 app.use('/auth', auth);
-app.use('/user', requireLogin_, homepage);
-app.use('/', requireLogin_, homepage);
+app.use('/user', requireLogin_, users);
+app.use('/homepage', requireLogin_, homepage);
+app.use('/', auth);
+//app.use('/', requireLogin_, homepage);
 
 
 
