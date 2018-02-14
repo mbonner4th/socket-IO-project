@@ -13,7 +13,16 @@ module.exports = {
             console.log("a user connected");
             var cookieSession = cookie.parse(socket.handshake.headers.cookie).session;
             var newSession = session.util.decode(sessionConfig, cookieSession);
-            console.log(newSession);
+            console.log(newSession.content.user.following);
+
+            sockets.push(socket);
+            
+
+            newSession.content.user.following.map(function(room){
+                socket.join(room);
+            });
+
+
 /* 
 Associate users with socket rooms based off of following.
 Broadcast to rooms current user is following. 

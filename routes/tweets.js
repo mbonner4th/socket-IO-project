@@ -16,6 +16,20 @@ router.get('/', function(req, res, next) {
   });
 });
 
+
+function getFollowingTweets(followers){
+
+  tweetModel.find({"handle": {"$in" : followers}})
+  .then(function(tweets){
+    console.log(tweets)
+    res.send(tweets);
+
+  }).catch(function(err){
+    console.log(err);
+  });
+
+};
+
 var joinRooms = function(user){
   var localIo =io.instance();
   for(var i = 0; i < req.user.following.length; i++){
@@ -34,7 +48,8 @@ router.post('/', function(req, res, next){
   .then(function(tweet){
     //broadcast stuff here
     //change to broadcase
-    io.instance().emit("newTweet", tweet);
+    console.log(req.user.handle + " Tweeted");
+    io.instance().to(req.user.handle).emit("newTweet", tweet);
     res.send(tweet);
   });
 });

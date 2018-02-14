@@ -33,6 +33,7 @@ $(function(){
     socket.on('newTweet', function(data){
         console.log("new tweet recived");
         console.log(data);
+        createTweet(data.body, data.User.handle)
     });
 
     socket.on('connect', function(){
@@ -46,7 +47,6 @@ $(function(){
             url: '/user',
         }).done(function(user){
             console.log("user");
-            socket.emit("join", user.following);
         });
     }
     
