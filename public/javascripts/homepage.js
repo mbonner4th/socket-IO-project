@@ -30,15 +30,13 @@ $(function(){
     var socket = io();
 
 
-    socket.on('newTweet', function(data){
+    socket.on('newTweet', function(tweet){
         console.log("new tweet recived");
-        console.log(data);
-        createTweet(data.body, data.User.handle)
+        createTweet(tweet);
     });
 
     socket.on('connect', function(){
         console.log("connected")
-        getUser();
     })
 
     function getUser(){
@@ -52,30 +50,79 @@ $(function(){
     
 
 
+    var userTweets= [];
+    var followingTweets = [];
+    var allTweets = [];
+
     function getAllTweets(){
         $.ajax({
             method:'GET',
             url: '/tweets',
         }).done(function(res){
             $.map(res, function(val, i){
-                createTweet(val.body, val.User.handle);
+                userTweets.push(val);
+                allTweets.push(val);
             });
+            console.log(allTweets);
+            getFollowingTweets();
+        });
+    }
+   
+
+    function getFollowingTweets(){
+        $.ajax({
+            method: "GET",
+            url: '/tweets/following',
+        }).done(function(res){
+            
+            $.map(res, function(val, i){
+                followingTweets.push(val);
+                allTweets.push(val);
+            });
+            allTweets.sort(function(tweet1, tweet2){
+                return new Date(tweet1.date) > new Date(tweet2.date);
+            })
+
+            $.map(allTweets, function(val, i){
+                createTweet(val);
+            })
             loadingSpinner.css('display', 'none');
         });
     }
-    getAllTweets();
+    //getFollowingTweets();
+     getAllTweets();
 
     /* updates the character count on the tweet-box */
     function updateCount(number){
         charCountContainer.html(number);
     }
 
+    var months = {
+        0: "Jan",
+        1: "feb",
+        2: "mar",
+        3: "apr",
+        4: "may",
+        5: "june",
+        6: "july",
+        7: "aug",
+        8: "sep",
+        9: "oct",
+        10: "nov",
+        11: "dec",
+    }
 
-    function createTweet(tweetBody, tweetAuthor){
+    function createTweet(tweet){
+        var tweetDate = new Date(tweet.date);
+        var month = months[tweetDate.getMonth()];
+        var date = tweetDate.getDate();
+        var hour = tweetDate.getHours();
+        var minute = tweetDate.getMinutes();
         var content = `
         <div class="tweet-box">
-        <p class="author">${tweetAuthor} <span>@${tweetAuthor}</span></p>
-        <p>${tweetBody}</p>
+        <p class="author">${tweet.User.handle} <span>@${tweet.User.handle}</span></p>
+        <p class="date"><small>${month} ${date} ${hour}:${minute}</small></p>
+        <p>${tweet.body}</p>
         </div>
         `;
         tweetContainer.prepend(content);
@@ -104,9 +151,8 @@ $(function(){
             }
 
         }).done(function(res){
-            createTweet(tweetTa.val(), tweetAuthor.val());
+            createTweet(res);
             tweetFrom[0].reset();
-            console.log('new tweet here');
             updateCount(0);
         });
         

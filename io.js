@@ -10,10 +10,10 @@ module.exports = {
     init: function(server){
         io = require('socket.io')(server);
         io.on('connection', function(socket){
-            console.log("a user connected");
+            //console.log("a user connected");
             var cookieSession = cookie.parse(socket.handshake.headers.cookie).session;
             var newSession = session.util.decode(sessionConfig, cookieSession);
-            console.log(newSession.content.user.following);
+            //console.log(newSession.content.user.following);
 
             sockets.push(socket);
             

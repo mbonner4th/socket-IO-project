@@ -17,18 +17,19 @@ router.get('/', function(req, res, next) {
 });
 
 
-function getFollowingTweets(followers){
-
-  tweetModel.find({"handle": {"$in" : followers}})
+/* returns tweets from people the current user is following */
+router.get("/following", function(req, res, next){
+  console.log(req.user.following);
+  tweetModel.find({"User.handle": {"$in" : req.user.following}})
   .then(function(tweets){
     console.log(tweets)
     res.send(tweets);
-
   }).catch(function(err){
     console.log(err);
   });
 
-};
+})
+
 
 var joinRooms = function(user){
   var localIo =io.instance();
