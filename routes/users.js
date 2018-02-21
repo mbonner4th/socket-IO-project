@@ -14,7 +14,7 @@ router.get('/', function(req, res, next) {
 });
 
 
-router.post("/", function(req, res, next){
+router.post("/register", function(req, res, next){
     userModel.create({
         email: req.body.email, 
         password: req.body.password, 
@@ -25,13 +25,33 @@ router.post("/", function(req, res, next){
         req.user = user.toObject();
         delete req.user.password;
         req.session.user = user;
-        res.redirect(`/homepage/${user.handle}`);
+        res.status(200).send("created");
     })
     .catch(function(err){
         console.log(err);
-        res.status(500).send(err.message);
+        res.status(400).send({errror: "email or handle already registered"});
     });
+});
 
+router.post('/login', function(req, res, next){
+  console.log(req.body);
+  userModel.findOne({handle: req.body.handle, password: req.body.password})
+  .then(function(user){
+      console.log(user);
+      if(user != null){
+          req.user = user.toObject();
+          delete req.user.password;
+          req.session.user = user;
+          console.log("logged on");
+          res.status(200).send("logged in");
+      } else{
+          res.status(400).send({error: "incoorect email or password"});
+      }
+  })
+  .catch(function(err){
+      console.log(err);
+      res.status(400).send("notlogged in")
+  });
 });
 
 /* takes a requested handel and adds the current user to the array of 

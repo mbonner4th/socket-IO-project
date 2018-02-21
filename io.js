@@ -15,9 +15,12 @@ module.exports = {
             var currentUser = session.util.decode(sessionConfig, cookieSession);
             sockets.push(socket);
             people[currentUser.content.user.handle] = socket;
-            currentUser.content.user.following.map(function(room){
-                socket.join(room);
-            });
+            if(currentUser.content.user.following){
+                currentUser.content.user.following.map(function(room){
+                    socket.join(room);
+                });
+            }
+            
         });
     }, 
     instance: function(){

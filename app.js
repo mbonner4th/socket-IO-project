@@ -5,6 +5,12 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var cors = require('cors');
+var corsOptions = {
+  origin:"http://localhost:3000",
+  credentials: true,
+}
+
 var session = require("client-sessions");
 var sessionConfig = require("./sessionConfig");
 
@@ -59,6 +65,7 @@ app.use(function(req, res, next) {
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(cors(corsOptions));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -78,7 +85,7 @@ function requireLogin_ (req, res, next) {
 
 app.use('/tweets', tweets);
 app.use('/auth', auth);
-app.use('/user', requireLogin_, users);
+app.use('/user', users);
 app.use('/homepage', requireLogin_, homepage);
 app.use('/', auth);
 //app.use('/', requireLogin_, homepage);

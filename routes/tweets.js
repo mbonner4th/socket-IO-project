@@ -42,6 +42,9 @@ router.post('/', function(req, res, next){
     console.log(req.user.handle + " Tweeted");
     io.instance().to(req.user.handle).emit("newTweet", tweet);
     res.send(tweet);
+  })
+  .catch(function(err){
+    console.log(err);
   });
 });
 
