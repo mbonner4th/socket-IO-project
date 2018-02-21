@@ -2,6 +2,7 @@ $(function(){
     var charCountContainer = $("#char-count");
 
     var followBtn = $("#follow-btn");
+    var unfollowBtn = $("#unfollow-btn");
 
     var tweetTa = $("#tweet-ta");
     var tweetAuthor = $("#tweet-author");
@@ -16,14 +17,8 @@ $(function(){
     var dropDownFrom = $("#drop-down-form");
     var tweetContainer = $("#tweet-container");
 
-    var registerBtn = $("#register-btn");
-    var signInBtn = $("#sign-in-btn");
-
-    var regModal = $("#reg-modal");
-    var regForm = $("#reg-form");
-
-    var signInModal = $("#signin-modal");
-    var signInForm = $("#signin-form");
+    var currentUser = $("#current-user");
+    //console.log(currentUser.val());
     
     var logoutBtn = $('#logout-btn');
     
@@ -63,7 +58,6 @@ $(function(){
                 userTweets.push(val);
                 allTweets.push(val);
             });
-            console.log(allTweets);
             getFollowingTweets();
         });
     }
@@ -89,7 +83,7 @@ $(function(){
             loadingSpinner.css('display', 'none');
         });
     }
-    //getFollowingTweets();
+    
      getAllTweets();
 
     /* updates the character count on the tweet-box */
@@ -118,14 +112,26 @@ $(function(){
         var date = tweetDate.getDate();
         var hour = tweetDate.getHours();
         var minute = tweetDate.getMinutes();
+        var linkedTweetBody = linkTweet(tweet.body);
         var content = `
         <div class="tweet-box">
         <p class="author">${tweet.User.handle} <span>@${tweet.User.handle}</span></p>
         <p class="date"><small>${month} ${date} ${hour}:${minute}</small></p>
-        <p>${tweet.body}</p>
+        <p>${linkedTweetBody}</p>
         </div>
         `;
         tweetContainer.prepend(content);
+    }
+
+    function linkTweet(tweetBody){
+        var reg = new RegExp('@\w+');
+        
+        var linkedBody = tweetBody.replace(/@\w+/, function(match, capture){
+            console.log(match);
+            return "<h2>test</h2>";
+        });
+        // not touching until I can get this fixed
+        return tweetBody;
     }
     
 
@@ -164,10 +170,6 @@ $(function(){
         // console.log($(this).val());
     });
 
-
-    registerBtn.on("click", function(event){
-    });
-
     //todo - ask Thi about this section of code
     function formDataToJson(serlalizedArray){
         var returnData = {}
@@ -176,49 +178,7 @@ $(function(){
         });
         return returnData;
     }
-
-    regForm.on("submit", function(event){
-        event.preventDefault();
-        console.log("submitted");
-        var formData = formDataToJson($(this).serializeArray());
-        console.log(formData["password"] == formData["re-password"]);
-        console.log(formData);
-        $.ajax({
-            method: "POST",
-            url:"/users",
-            data: formData,
-        }).done( function(res){
-            console.log(res);
-            regForm[0].reset();
-            regModal.modal("hide");
-        });
-        
-    });
-
     
-
-    signInBtn.on("click", function(event){
-        console.log("clicked here too");
-    });
-
-    signInForm.on("submit", function(event){
-        event.preventDefault();
-        console.log("logged-on");
-        console.log(formDataToJson($(this).serializeArray()));
-        $(this)[0].reset();
-        signInModal.modal("hide");
-    })
-
-    logoutBtn.on('click', function(event){
-        $.ajax({
-            method: "GET",
-            url: "/auth/logout",
-
-        }).done(
-            console.log("logged out")
-        );
-    });
-
     followBtn.on('click', function(event){
         console.log(followBtn.val());
         $.ajax({
@@ -226,9 +186,22 @@ $(function(){
             url: `/user/follow/${followBtn.val()}`,
             data: followBtn.val(),
 
-        }).done(
-            console.log("now following")
+        }).done(function(){
+            followBtn.css({"display":"none"});
+            unfollowBtn.css({"display": "block"})
+        }
         );
     })
+
+    unfollowBtn.on('click', function(event){
+        $.ajax({
+            method: "PUT",
+            url: `/user/unfollow/${followBtn.val()}`,
+            data: unfollowBtn.val(),
+        }).done(function(){
+            followBtn.css({"display":"block"});
+            unfollowBtn.css({"display": "none"})
+        });
+    });
     
 });

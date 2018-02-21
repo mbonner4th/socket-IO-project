@@ -20,10 +20,6 @@ var userSchema = mongoose.Schema({
         type: String, 
         ref: 'user',
     }],
-    followers: [{
-        type: ObjectId, 
-        ref: 'user',
-    }] 
 });
 var userModel = mongoose.model('user', userSchema);
 

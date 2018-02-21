@@ -12,38 +12,27 @@ module.exports = {
         io.on('connection', function(socket){
             //console.log("a user connected");
             var cookieSession = cookie.parse(socket.handshake.headers.cookie).session;
-            var newSession = session.util.decode(sessionConfig, cookieSession);
-            //console.log(newSession.content.user.following);
-
+            var currentUser = session.util.decode(sessionConfig, cookieSession);
             sockets.push(socket);
-            
-
-            newSession.content.user.following.map(function(room){
+            people[currentUser.content.user.handle] = socket;
+            currentUser.content.user.following.map(function(room){
                 socket.join(room);
-            });
-
-
-/* 
-Associate users with socket rooms based off of following.
-Broadcast to rooms current user is following. 
-*/
-
-            io.on("join", function(){
-                console.log("test");
             });
         });
     }, 
     instance: function(){
         return io;
     },
+    joinRoom: function( userHandel, room){
+        if( people[userHandel]){
+            people[userHandel].join(room);
+        }
+    }, 
+    leaveRoom: function(userHandel, room){
+        if( people[userHandel]){
+            people[userHandel].leave(room);
+        }
+
+    }
 }
 
-//you could use e.g. underscore to achieve this (
-    function findUserByName(name){
-        for(socketId in people){
-          if(people[socketId].name === name){
-            return socketId;
-          }
-        }
-        return false;
-      }

@@ -10,10 +10,12 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/:handle', function(req, res, next){
-  console.log(req.params.handle);
-  
-  
-  res.render('home-page', { user: req.params.handle });
+  console.log(req.user);
+
+  res.render('home-page', { 
+    user: req.params.handle,
+    currentUser: req.user,
+   });
 });
 
 module.exports = router;

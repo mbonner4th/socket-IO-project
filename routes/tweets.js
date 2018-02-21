@@ -5,7 +5,7 @@ var io = require('../io');
 
 var tweetModel = require('../models/tweets');
 
-/* GET users listing. */
+/* GET current user's tweet. */
 router.get('/', function(req, res, next) {
   tweetModel.find({"User._id": req.user._id})
   .then(function(tweets){
@@ -22,7 +22,6 @@ router.get("/following", function(req, res, next){
   console.log(req.user.following);
   tweetModel.find({"User.handle": {"$in" : req.user.following}})
   .then(function(tweets){
-    console.log(tweets)
     res.send(tweets);
   }).catch(function(err){
     console.log(err);
@@ -30,15 +29,6 @@ router.get("/following", function(req, res, next){
 
 })
 
-
-var joinRooms = function(user){
-  var localIo =io.instance();
-  for(var i = 0; i < req.user.following.length; i++){
-    console.log(req.user.following[1]);
-  }
-
-
-}
 
 router.post('/', function(req, res, next){
   console.log(req.user);
